@@ -5,7 +5,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: '/:path*',
+        // Exclude specific UI paths and system paths from the rewrite
+        source: '/:path((?!links|favicon.ico|_next).*)',
         destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/:path*`,
       },
     ];
