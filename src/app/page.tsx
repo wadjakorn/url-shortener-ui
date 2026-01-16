@@ -5,6 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
+function isRedirectError(error: any) {
+  return error?.digest?.startsWith?.('NEXT_REDIRECT');
+}
+
 // Force dynamic rendering since data changes frequently
 export const dynamic = 'force-dynamic';
 
@@ -13,6 +17,9 @@ export default async function Home() {
   try {
     dashboardData = await api.dashboard.get();
   } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
     console.error("Failed to fetch dashboard data:", error);
     // Fallback data or error handling
     dashboardData = null;

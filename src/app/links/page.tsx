@@ -5,6 +5,10 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Link as LinkType } from "@/types";
 
+function isRedirectError(error: any) {
+    return error?.digest?.startsWith?.('NEXT_REDIRECT');
+}
+
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
@@ -14,6 +18,9 @@ export default async function LinksPage() {
         const res = await api.links.list(1, 100); // Fetch 100 for now, pagination to be implemented if needed
         links = res.data || [];
     } catch (error) {
+        if (isRedirectError(error)) {
+            throw error;
+        }
         console.error("Failed to fetch links:", error);
     }
 

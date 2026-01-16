@@ -23,16 +23,49 @@ async function fetchAPI<T>(endpoint: string, options: RequestOptions = {}): Prom
         }
     }
 
+    const isServer = typeof window === 'undefined';
+    let headers: HeadersInit = {
+        "Content-Type": "application/json",
+        ...init.headers,
+    };
+
+    if (isServer) {
+        const { cookies } = await import("next/headers");
+        const cookieStore = await cookies();
+        const cookieHeader = cookieStore.toString();
+        if (cookieHeader) {
+            headers = {
+                ...headers,
+                Cookie: cookieHeader,
+            };
+        }
+    } else {
+        init.credentials = 'include';
+    }
+
+    // Prevent fetch from following redirects (like to Google Login) automatically
+    // This allows us to intercept the redirect and handle it as a 401
     const res = await fetch(url, {
-        headers: {
-            "Content-Type": "application/json",
-            ...init.headers,
-        },
+        headers,
+        redirect: 'manual',
         ...init,
     });
 
+    // Handle 401 Unauthorized OR manual redirects (indicates auth required)
+    if (res.status === 401 || res.type === 'opaqueredirect' || (res.status >= 300 && res.status < 400)) {
+        if (isServer) {
+            const { redirect } = await import("next/navigation");
+            redirect('/login');
+        } else {
+            window.location.href = '/login';
+            return {} as T;
+        }
+    }
+
     if (!res.ok) {
-        throw new Error(`API Error: ${res.status} ${res.statusText}`);
+        // Try to read text to give a better error message if possible, or just fail
+        const text = await res.text().catch(() => res.statusText);
+        throw new Error(`API Error: ${res.status} ${text || res.statusText}`);
     }
 
     if (res.status === 204) {
