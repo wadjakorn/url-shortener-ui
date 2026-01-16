@@ -54,8 +54,8 @@ export function LinksTable({ initialLinks }: LinksTableProps) {
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between p-6 gap-4">
                             <div className="space-y-1 overflow-hidden">
                                 <div className="flex items-center gap-2">
-                                    <a href={`/${link.short_code}`} target="_blank" className="text-lg font-bold text-primary hover:underline flex items-center gap-1">
-                                        /{link.short_code}
+                                    <a href={`/open/${link.short_code}`} target="_blank" className="text-lg font-bold text-primary hover:underline flex items-center gap-1">
+                                        /open/{link.short_code}
                                         <ExternalLink className="h-3 w-3" />
                                     </a>
                                     {link.title && <span className="text-muted-foreground text-sm border-l pl-2 ml-2">{link.title}</span>}
