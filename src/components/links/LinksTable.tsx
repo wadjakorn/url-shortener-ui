@@ -54,8 +54,8 @@ export function LinksTable({ initialLinks }: LinksTableProps) {
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between p-6 gap-4">
                             <div className="space-y-1 overflow-hidden">
                                 <div className="flex items-center gap-2">
-                                    <a href={`/open/${link.short_code}`} target="_blank" className="text-lg font-bold text-primary hover:underline flex items-center gap-1">
-                                        go to /open/{link.short_code}
+                                    <a href={`/open/${link.short_code}?no_stat=1`} target="_blank" className="text-lg font-bold text-primary hover:underline flex items-center gap-1">
+                                        /open/{link.short_code}?no_stat=1
                                         <ExternalLink className="h-3 w-3" />
                                     </a>
                                     {link.title && <span className="text-muted-foreground text-sm border-l pl-2 ml-2">{link.title}</span>}
@@ -69,11 +69,6 @@ export function LinksTable({ initialLinks }: LinksTableProps) {
                             </div>
 
                             <div className="flex items-center gap-4 sm:gap-6 shrink-0 border-t sm:border-t-0 pt-4 sm:pt-0">
-                                <div className="text-center min-w-[60px]">
-                                    <div className="text-xl font-bold">{(link.clicks || 0).toLocaleString()}</div>
-                                    <div className="text-xs text-muted-foreground uppercase tracking-wider">Clicks</div>
-                                </div>
-
                                 <div className="flex items-center gap-2">
                                     <Link href={`/links/${link.id}`}>
                                         <Button variant="ghost" size="icon" title="Analytics">
