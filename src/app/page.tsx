@@ -63,8 +63,8 @@ export default async function Home() {
                   <div key={link.id} className="flex items-center justify-between border-b border-border pb-4 last:border-0 last:pb-0">
                     <div className="space-y-1">
                       <p className="text-sm font-medium leading-none">
-                        <a href={link.short_code} target="_blank" rel="noopener noreferrer" className="hover:underline text-primary">
-                          /{link.short_code}
+                        <a href={`/open/${link.short_code}`} target="_blank" rel="noopener noreferrer" className="hover:underline text-primary">
+                          go to /open/{link.short_code}
                         </a>
                       </p>
                       <p className="text-sm text-muted-foreground truncate max-w-md">

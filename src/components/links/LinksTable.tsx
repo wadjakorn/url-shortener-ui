@@ -55,7 +55,7 @@ export function LinksTable({ initialLinks }: LinksTableProps) {
                             <div className="space-y-1 overflow-hidden">
                                 <div className="flex items-center gap-2">
                                     <a href={`/open/${link.short_code}`} target="_blank" className="text-lg font-bold text-primary hover:underline flex items-center gap-1">
-                                        /open/{link.short_code}
+                                        go to /open/{link.short_code}
                                         <ExternalLink className="h-3 w-3" />
                                     </a>
                                     {link.title && <span className="text-muted-foreground text-sm border-l pl-2 ml-2">{link.title}</span>}
