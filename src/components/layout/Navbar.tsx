@@ -51,7 +51,7 @@ export function Navbar() {
                         size="sm"
                         onClick={() => {
                             // Redirect to backend logout endpoint which clears cookies and redirects back to login
-                            window.location.href = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/auth/logout`;
+                            window.location.href = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/app/logout`;
                         }}
                     >
                         Sign Out
