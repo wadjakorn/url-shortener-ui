@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { cn } from "@/components/ui/Button"
+import { cn, Button } from "@/components/ui/Button"
 import { LayoutDashboard, Link as LinkIcon, Plus } from "lucide-react"
 
 export function Navbar() {
@@ -46,7 +46,16 @@ export function Navbar() {
                     ))}
                 </div>
                 <div className="flex items-center space-x-4 ml-auto">
-                    {/* Placeholder for user profile or settings */}
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                            // Redirect to backend logout endpoint which clears cookies and redirects back to login
+                            window.location.href = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/auth/logout`;
+                        }}
+                    >
+                        Sign Out
+                    </Button>
                 </div>
             </div>
         </nav>
