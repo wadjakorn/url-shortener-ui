@@ -41,3 +41,26 @@ export interface UpdateLinkPayload {
   title?: string;
   tags?: string[];
 }
+
+export interface Collection {
+  id: number;
+  slug: string;
+  title: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+  links?: Link[];
+}
+
+export interface CreateCollectionRequest {
+  title: string;
+  slug: string;
+  description: string;
+}
+
+export interface CollectionListResponse {
+  data: Collection[];
+  total: number;
+  page: number;
+  limit: number;
+}

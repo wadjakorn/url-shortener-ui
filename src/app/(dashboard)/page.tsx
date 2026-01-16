@@ -63,8 +63,11 @@ export default async function Home() {
                   <div key={link.id} className="flex items-center justify-between border-b border-border pb-4 last:border-0 last:pb-0">
                     <div className="space-y-1">
                       <p className="text-sm font-medium leading-none">
+                        {link.title}
+                      </p>
+                      <p className="text-sm font-medium leading-none">
                         <a href={`/open/${link.short_code}?no_stat=1`} target="_blank" rel="noopener noreferrer" className="hover:underline text-primary">
-                          /open/{link.short_code}?no_stat=1
+                          /open/{link.short_code}
                         </a>
                       </p>
                       <p className="text-sm text-muted-foreground truncate max-w-md">
@@ -72,6 +75,13 @@ export default async function Home() {
                       </p>
                     </div>
                     <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2">
+                        {link.tags.map((tag) => (
+                          <span key={tag} className="px-2 py-1 text-xs font-medium rounded-full bg-primary/10 text-primary">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                       <div className="text-right">
                         <p className="text-sm font-medium">{(link.clicks || 0).toLocaleString()}</p>
                         <p className="text-xs text-muted-foreground">clicks</p>

@@ -1,4 +1,4 @@
-import { CreateLinkPayload, DashboardStats, Link, LinkStats, PaginatedResponse, UpdateLinkPayload } from "@/types";
+import { Collection, CollectionListResponse, CreateCollectionRequest, CreateLinkPayload, DashboardStats, Link, LinkStats, PaginatedResponse, UpdateLinkPayload } from "@/types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -76,7 +76,12 @@ async function fetchAPI<T>(endpoint: string, options: RequestOptions = {}): Prom
         return {} as T;
     }
 
-    return res.json();
+    // but res can be empty or plain text, not always json, should check first.
+    try {
+        return await res.json();
+    } catch (error) {
+        return "" as T;
+    }
 }
 
 export const api = {
@@ -94,5 +99,23 @@ export const api = {
             fetchAPI<void>(`/api/v1/links/${id}`, { method: "DELETE" }),
         getStats: (id: number) =>
             fetchAPI<LinkStats>(`/api/v1/links/${id}/stats`),
+    },
+    collections: {
+        list: (page = 1, limit = 10, search?: string) =>
+            fetchAPI<CollectionListResponse>("/api/v1/collections", { params: { page, limit, search } }),
+        create: (data: CreateCollectionRequest) =>
+            fetchAPI<Collection>("/api/v1/collections", { method: "POST", body: JSON.stringify(data) }),
+        get: (id: number) =>
+            fetchAPI<Collection>(`/api/v1/collections/${id}`),
+        update: (id: number, data: CreateCollectionRequest) =>
+            fetchAPI<Collection>(`/api/v1/collections/${id}`, { method: "PUT", body: JSON.stringify(data) }),
+        delete: (id: number) =>
+            fetchAPI<void>(`/api/v1/collections/${id}`, { method: "DELETE" }),
+        addLink: (id: number, linkId: number) =>
+            fetchAPI<void>(`/api/v1/collections/${id}/links`, { method: "POST", body: JSON.stringify({ link_id: linkId }) }),
+        removeLink: (id: number, linkId: number) =>
+            fetchAPI<void>(`/api/v1/collections/${id}/links/${linkId}`, { method: "DELETE" }),
+        getPublic: (slug: string) =>
+            fetchAPI<Collection>(`/u/${slug}`),
     },
 };

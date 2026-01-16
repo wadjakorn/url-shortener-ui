@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn, Button } from "@/components/ui/Button"
-import { LayoutDashboard, Link as LinkIcon, Plus } from "lucide-react"
+import { LayoutDashboard, Link as LinkIcon, Plus, Layers } from "lucide-react"
 
 export function Navbar() {
     const pathname = usePathname();
@@ -20,6 +20,12 @@ export function Navbar() {
             label: "Links",
             icon: LinkIcon,
             active: pathname === "/links" || pathname.startsWith("/links/"),
+        },
+        {
+            href: "/collections",
+            label: "Collections",
+            icon: Layers,
+            active: pathname === "/collections" || pathname.startsWith("/collections/"),
         },
     ];
 
