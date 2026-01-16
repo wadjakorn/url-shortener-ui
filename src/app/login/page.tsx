@@ -6,8 +6,8 @@ import { LogIn } from "lucide-react";
 
 export default function LoginPage() {
     const handleLogin = () => {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-        window.location.href = `${apiUrl}/auth/google/login`;
+        // Use relative path to leverage Next.js rewrites (proxy)
+        window.location.href = `/auth/google/login`;
     };
 
     return (

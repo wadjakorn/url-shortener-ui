@@ -9,7 +9,11 @@ type RequestOptions = RequestInit & {
 async function fetchAPI<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
     const { params, ...init } = options;
 
-    let url = `${API_BASE_URL}${endpoint}`;
+    let url = endpoint;
+    // Server-side needs absolute URL, Client-side uses relative (Proxy)
+    if (typeof window === 'undefined') {
+        url = `${API_BASE_URL}${endpoint}`;
+    }
     if (params) {
         const searchParams = new URLSearchParams();
         Object.entries(params).forEach(([key, value]) => {
