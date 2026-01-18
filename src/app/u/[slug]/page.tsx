@@ -38,7 +38,7 @@ export default async function PublicCollectionPage({ params }: PublicCollectionP
 
     return (
         <div className="min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md mx-auto space-y-8">
+            <div className="max-w-3xl mx-auto space-y-8">
                 <div className="text-center space-y-2">
                     <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
                         {collection.title}
@@ -61,7 +61,7 @@ export default async function PublicCollectionPage({ params }: PublicCollectionP
                                 className="block group"
                             >
                                 <div className="w-full p-4 bg-card border border-border rounded-lg shadow-sm hover:shadow-md hover:border-primary/50 transition-all flex items-center justify-between">
-                                    <span className="font-medium text-lg truncate pr-4 group-hover:text-primary transition-colors">
+                                    <span className="font-medium text-lg pr-4 group-hover:text-primary transition-colors">
                                         {link.title}
                                     </span>
                                     <ExternalLink className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />

@@ -99,6 +99,10 @@ export const api = {
             fetchAPI<void>(`/api/v1/links/${id}`, { method: "DELETE" }),
         getStats: (id: number) =>
             fetchAPI<LinkStats>(`/api/v1/links/${id}/stats`),
+        getPublic: (code: string) =>
+            fetchAPI<Link>(`/api/v1/public/links/${code}`),
+        trackVisit: (code: string) =>
+            fetchAPI<void>(`/api/v1/public/links/${code}/track`, { method: "POST" }),
     },
     collections: {
         list: (page = 1, limit = 10, search?: string) =>
