@@ -1,4 +1,5 @@
 import { api } from "@/lib/api";
+import { Metadata } from "next";
 import { Button } from "@/components/ui/Button";
 import { Link as LinkType } from "@/types";
 import { ExternalLink } from "lucide-react";
@@ -7,6 +8,27 @@ import { redirect } from "next/navigation";
 
 interface PublicCollectionPageProps {
     params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: PublicCollectionPageProps): Promise<Metadata> {
+    const { slug } = await params;
+    try {
+        const collection = await api.collections.getPublic(slug);
+        if (!collection) {
+            return { title: 'Collection Not Found' };
+        }
+        return {
+            title: collection.title,
+            description: collection.description || `Collection of links on ${collection.title}`,
+            openGraph: {
+                title: collection.title,
+                description: collection.description || `Collection of links on ${collection.title}`,
+                // No images as requested
+            }
+        };
+    } catch (e) {
+        return { title: 'Error' };
+    }
 }
 
 export default async function PublicCollectionPage({ params }: PublicCollectionPageProps) {
