@@ -11,7 +11,7 @@ export function DailyClicksChart({ data }: DailyClicksProps) {
     return (
         <Card className="col-span-4">
             <CardHeader>
-                <CardTitle>Daily Clicks</CardTitle>
+                <CardTitle>Clicks</CardTitle>
             </CardHeader>
             <CardContent className="pl-2">
                 <ResponsiveContainer width="100%" height={350}>

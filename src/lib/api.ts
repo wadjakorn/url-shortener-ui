@@ -97,8 +97,8 @@ export const api = {
             fetchAPI<Link>(`/api/v1/links/${id}`, { method: "PUT", body: JSON.stringify(data) }),
         delete: (id: number) =>
             fetchAPI<void>(`/api/v1/links/${id}`, { method: "DELETE" }),
-        getStats: (id: number) =>
-            fetchAPI<LinkStats>(`/api/v1/links/${id}/stats`),
+        getStats: (id: number, filters?: { year?: number; month?: number; day?: number; referer?: string }) =>
+            fetchAPI<LinkStats>(`/api/v1/links/${id}/stats`, { params: filters }),
         getPublic: (code: string) =>
             fetchAPI<Link>(`/api/v1/public/links/${code}`),
         trackVisit: (code: string, customRef?: string) =>

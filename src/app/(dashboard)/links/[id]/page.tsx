@@ -1,3 +1,4 @@
+import { AnalyticsFilters } from "@/components/analytics/AnalyticsFilters";
 import { api } from "@/lib/api";
 import { DailyClicksChart } from "@/components/analytics/DailyClicksChart";
 import { ReferrersList } from "@/components/analytics/ReferrersList";
@@ -9,10 +10,20 @@ export const dynamic = 'force-dynamic';
 
 interface PageProps {
     params: Promise<{ id: string }>;
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function LinkAnalyticsPage({ params }: PageProps) {
+export default async function LinkAnalyticsPage({ params, searchParams }: PageProps) {
     const { id } = await params;
+    const sp = await searchParams;
+
+    const filters = {
+        year: sp.year ? Number(sp.year) : undefined,
+        month: sp.month ? Number(sp.month) : undefined,
+        day: sp.day ? Number(sp.day) : undefined,
+        referer: sp.referer as string | undefined,
+    };
+
     let stats;
     // We also might want the link details (title, short_code) to show in the header.
     // Assuming we can fetch it, or just show stats for now.
@@ -30,7 +41,7 @@ export default async function LinkAnalyticsPage({ params }: PageProps) {
     } catch (e) { }
 
     try {
-        stats = await api.links.getStats(Number(id));
+        stats = await api.links.getStats(Number(id), filters);
     } catch (error) {
         console.error("Failed to fetch stats:", error);
     }
@@ -55,6 +66,8 @@ export default async function LinkAnalyticsPage({ params }: PageProps) {
                     )}
                 </div>
             </div>
+
+            <AnalyticsFilters />
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <div className="rounded-xl border bg-card text-card-foreground shadow p-6">
