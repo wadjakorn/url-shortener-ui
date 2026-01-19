@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Link as LinkType } from "@/types";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 interface PublicCollectionPageProps {
     params: Promise<{ slug: string }>;
@@ -33,6 +33,8 @@ export async function generateMetadata({ params }: PublicCollectionPageProps): P
 
 export default async function PublicCollectionPage({ params }: PublicCollectionPageProps) {
     const { slug } = await params;
+    const headersList = await headers();
+    const referer = headersList.get('referer');
     let collection = null;
 
     try {
@@ -77,7 +79,7 @@ export default async function PublicCollectionPage({ params }: PublicCollectionP
                         links.map((link) => (
                             <a
                                 key={link.id}
-                                href={`/open/${link.short_code}`}
+                                href={`/open/${link.short_code}${referer ? `?custom_ref=${encodeURIComponent(referer)}` : ''}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="block group"

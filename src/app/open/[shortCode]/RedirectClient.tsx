@@ -6,22 +6,23 @@ import { api } from '@/lib/api';
 interface RedirectClientProps {
     code: string;
     destination: string;
+    customRef?: string;
 }
 
-export default function RedirectClient({ code, destination }: RedirectClientProps) {
+export default function RedirectClient({ code, destination, customRef }: RedirectClientProps) {
     useEffect(() => {
         const performRedirect = async () => {
             try {
                 // Attempt to track the visit
-                await api.links.trackVisit(code);
+                await api.links.trackVisit(code, customRef);
             } catch (e) {
                 console.error("Tracking failed", e);
             }
-            // Always redirect, even if tracking fails
+
             window.location.replace(destination);
         };
         performRedirect();
-    }, [code, destination]);
+    }, [code, destination, customRef]);
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center">

@@ -101,8 +101,8 @@ export const api = {
             fetchAPI<LinkStats>(`/api/v1/links/${id}/stats`),
         getPublic: (code: string) =>
             fetchAPI<Link>(`/api/v1/public/links/${code}`),
-        trackVisit: (code: string) =>
-            fetchAPI<void>(`/api/v1/public/links/${code}/track`, { method: "POST" }),
+        trackVisit: (code: string, customRef?: string) =>
+            fetchAPI<void>(`/api/v1/public/links/${code}/track`, { method: "POST", body: JSON.stringify({ custom_ref: customRef }) }),
     },
     collections: {
         list: (page = 1, limit = 10, search?: string) =>

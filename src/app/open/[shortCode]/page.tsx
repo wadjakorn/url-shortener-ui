@@ -4,6 +4,7 @@ import RedirectClient from "./RedirectClient";
 
 interface Props {
     params: Promise<{ shortCode: string }>;
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -31,12 +32,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 }
 
-export default async function OpenLinkPage({ params }: Props) {
+export default async function OpenLinkPage({ params, searchParams }: Props) {
     const { shortCode } = await params;
+    const { custom_ref } = await searchParams;
+
+    // Ensure ref is a string if it exists
+    const customRef = Array.isArray(custom_ref) ? custom_ref[0] : custom_ref;
 
     try {
         const link = await api.links.getPublic(shortCode);
-        return <RedirectClient code={shortCode} destination={link.original_url} />;
+        return <RedirectClient code={shortCode} destination={link.original_url} customRef={customRef} />;
     } catch (error) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen">
